@@ -13,14 +13,14 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
+    private String nome;
 
     public Category() {
     }
 
-    public Category(Integer id, String name) {
+    public Category(Integer id, String nome) {
         this.id = id;
-        this.name = name;
+        this.nome = nome;
     }
 
     public Integer getId() {
@@ -32,11 +32,11 @@ public class Category implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String nome) {
+        this.nome = nome;
     }
 
     @Override
@@ -44,11 +44,11 @@ public class Category implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
-        return Objects.equals(id, category.id) && Objects.equals(name, category.name);
+        return Objects.equals(id, category.id) && Objects.equals(nome, category.nome);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, nome);
     }
 }
