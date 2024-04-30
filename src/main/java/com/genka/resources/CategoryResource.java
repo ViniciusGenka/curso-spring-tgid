@@ -1,7 +1,7 @@
 package com.genka.resources;
 
 import com.genka.domain.Category;
-import com.genka.dtos.CategoryDTO;
+import com.genka.dtos.CategoryNewDTO;
 import com.genka.services.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +25,8 @@ public class CategoryResource {
     }
 
     @PostMapping()
-    public ResponseEntity<Category> addCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
-        Category categoryToSave = categoryService.mapFromDTO(categoryDTO);
-        Category savedCategory = categoryService.saveCategory(categoryToSave);
+    public ResponseEntity<Category> addCategory(@Valid @RequestBody CategoryNewDTO categoryNewDTO) {
+        Category savedCategory = categoryService.saveCategory(categoryService.mapFromDTO(categoryNewDTO));
         return ResponseEntity.status(200).body(savedCategory);
     }
 }

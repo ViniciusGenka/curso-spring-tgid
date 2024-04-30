@@ -1,7 +1,7 @@
 package com.genka.services;
 
 import com.genka.domain.Category;
-import com.genka.dtos.CategoryDTO;
+import com.genka.dtos.CategoryNewDTO;
 import com.genka.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,10 +29,10 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category mapFromDTO(CategoryDTO categoryDTO) {
+    public Category mapFromDTO(CategoryNewDTO categoryNewDTO) {
         return new Category(
-                categoryDTO.getId(),
-                categoryDTO.getName()
+                categoryNewDTO.getId(),
+                categoryNewDTO.getName()
         );
     }
 }
