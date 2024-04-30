@@ -3,9 +3,9 @@ package com.genka.services;
 import com.genka.domain.Category;
 import com.genka.dtos.CategoryNewDTO;
 import com.genka.repositories.CategoryRepository;
+import com.genka.resources.exceptions.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service

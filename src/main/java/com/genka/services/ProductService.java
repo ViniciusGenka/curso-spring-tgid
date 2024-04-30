@@ -5,9 +5,9 @@ import com.genka.domain.Product;
 import com.genka.dtos.ProductNewDTO;
 import com.genka.repositories.CategoryRepository;
 import com.genka.repositories.ProductRepository;
+import com.genka.resources.exceptions.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
