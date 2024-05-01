@@ -1,6 +1,7 @@
 package com.genka.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.genka.domain.enums.CustomerType;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Customer implements Serializable {
     private Integer type;
     @JsonIgnore
     private String password;
+    @JsonManagedReference
     @OneToMany(mappedBy = "customer")
     private List<Address> addresses = new ArrayList<>();
     @ElementCollection

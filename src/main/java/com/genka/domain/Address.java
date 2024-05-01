@@ -1,5 +1,6 @@
 package com.genka.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class Address implements Serializable {
     @ManyToOne
     @JoinColumn(name="city_id")
     private City city;
-    @JsonIgnore
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="customer_id")
     private Customer customer;
