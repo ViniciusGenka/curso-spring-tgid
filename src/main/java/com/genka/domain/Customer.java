@@ -32,13 +32,14 @@ public class Customer implements Serializable {
     public Customer() {
     }
 
-    public Customer(Integer id, String email, String name, String identification, CustomerType customerType, String password) {
+    public Customer(Integer id, String email, String name, String identification, CustomerType customerType, String password, Set<String> phones) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.identification = identification;
         this.type = customerType.getValue();
         this.password = password;
+        this.phones = phones;
     }
 
     public Integer getId() {
