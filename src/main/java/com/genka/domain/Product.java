@@ -4,9 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Product implements Serializable {
@@ -24,15 +23,18 @@ public class Product implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories = new ArrayList<>();
+    @OneToMany(mappedBy = "product")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Product() {
     }
 
-    public Product(Integer id, String name, Double price, List<Category> categories) {
+    public Product(Integer id, String name, Double price, List<Category> categories, Set<OrderItem> items) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.categories = categories;
+        this.items = items;
     }
 
     public Integer getId() {
@@ -67,16 +69,30 @@ public class Product implements Serializable {
         this.categories = categories;
     }
 
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<OrderItem> items) {
+        this.items = items;
+    }
+
+    public List<Order> getOrders() {
+        return items.stream()
+                .map(OrderItem::getOrder)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(price, product.price) && Objects.equals(categories, product.categories);
+        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(price, product.price) && Objects.equals(categories, product.categories) && Objects.equals(items, product.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, categories);
+        return Objects.hash(id, name, price, categories, items);
     }
 }
