@@ -25,6 +25,11 @@ public class CategoryService {
         return categoryRepository.findById(categoryId).orElseThrow(() -> new EntityNotFoundException("Category with id " + categoryId + " not found"));
     }
 
+    public Category updateCategory(Category category) {
+        getCategoryById(category.getId());
+        return categoryRepository.save(category);
+    }
+
     public Category saveCategory(Category category) {
         return categoryRepository.save(category);
     }

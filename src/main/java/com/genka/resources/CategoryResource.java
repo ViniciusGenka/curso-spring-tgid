@@ -30,4 +30,12 @@ public class CategoryResource {
         Category savedCategory = categoryService.saveCategory(categoryService.mapFromDTO(categoryNewDTO));
         return ResponseEntity.status(HttpStatus.OK).body(savedCategory);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Category> updateCategory(@Valid @RequestBody CategoryNewDTO categoryUpdateDTO, @PathVariable Integer id) {
+        Category categoryToUpdate = categoryService.mapFromDTO(categoryUpdateDTO);
+        categoryToUpdate.setId(id);
+        Category savedCategory = categoryService.updateCategory(categoryToUpdate);
+        return ResponseEntity.status(HttpStatus.OK).body(savedCategory);
+    }
 }

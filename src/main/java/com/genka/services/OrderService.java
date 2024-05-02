@@ -9,7 +9,6 @@ import com.genka.domain.payments.Payment;
 import com.genka.domain.product.Product;
 import com.genka.dtos.OrderItemNewDTO;
 import com.genka.dtos.OrderNewDTO;
-import com.genka.repositories.OrderItemRepository;
 import com.genka.repositories.OrderRepository;
 import com.genka.resources.exceptions.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -21,15 +20,13 @@ import java.util.stream.Collectors;
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
     private final ProductService productService;
     private final CustomerService customerService;
     private final AddressService addressService;
 
 
-    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository, ProductService productService, CustomerService customerService, AddressService addressService) {
+    public OrderService(OrderRepository orderRepository, ProductService productService, CustomerService customerService, AddressService addressService) {
         this.orderRepository = orderRepository;
-        this.orderItemRepository = orderItemRepository;
         this.productService = productService;
         this.customerService = customerService;
         this.addressService = addressService;
