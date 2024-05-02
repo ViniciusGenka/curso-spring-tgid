@@ -1,6 +1,6 @@
 package com.genka.services;
 
-import com.genka.domain.City;
+import com.genka.domain.address.City;
 import com.genka.repositories.CityRepository;
 import com.genka.resources.exceptions.EntityNotFoundException;
 import org.springframework.stereotype.Service;

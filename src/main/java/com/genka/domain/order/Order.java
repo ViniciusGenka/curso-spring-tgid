@@ -1,6 +1,9 @@
-package com.genka.domain;
+package com.genka.domain.order;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.genka.domain.customer.Customer;
+import com.genka.domain.address.Address;
+import com.genka.domain.payments.Payment;
 
 import javax.persistence.*;
 import java.io.Serializable;

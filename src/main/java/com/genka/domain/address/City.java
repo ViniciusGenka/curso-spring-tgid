@@ -1,30 +1,30 @@
-package com.genka.domain;
+package com.genka.domain.address;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class State implements Serializable {
+public class City implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @JsonBackReference
-    @OneToMany(mappedBy = "state")
-    private List<City> cities = new ArrayList<>();
+    @JsonManagedReference
+    @ManyToOne
+    @JoinColumn(name = "state_id")
+    private State state;
 
-    public State() {
+    public City() {
     }
 
-    public State(Integer id, String name) {
+    public City(Integer id, String name, State state) {
         this.id = id;
         this.name = name;
+        this.state = state;
     }
 
     public Integer getId() {
@@ -43,24 +43,24 @@ public class State implements Serializable {
         this.name = name;
     }
 
-    public List<City> getCities() {
-        return cities;
+    public State getState() {
+        return state;
     }
 
-    public void setCities(List<City> cities) {
-        this.cities = cities;
+    public void setState(State state) {
+        this.state = state;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        State state = (State) o;
-        return Objects.equals(id, state.id) && Objects.equals(name, state.name) && Objects.equals(cities, state.cities);
+        City city = (City) o;
+        return Objects.equals(id, city.id) && Objects.equals(name, city.name) && Objects.equals(state, city.state);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, cities);
+        return Objects.hash(id, name, state);
     }
 }

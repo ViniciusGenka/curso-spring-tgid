@@ -1,5 +1,6 @@
-package com.genka.domain;
+package com.genka.domain.payments;
 
+import com.genka.domain.order.Order;
 import com.genka.domain.enums.PaymentStatus;
 
 import javax.persistence.Entity;

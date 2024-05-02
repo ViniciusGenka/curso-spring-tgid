@@ -1,6 +1,6 @@
 package com.genka.services;
 
-import com.genka.domain.Category;
+import com.genka.domain.product.Category;
 import com.genka.dtos.CategoryNewDTO;
 import com.genka.repositories.CategoryRepository;
 import com.genka.resources.exceptions.EntityNotFoundException;

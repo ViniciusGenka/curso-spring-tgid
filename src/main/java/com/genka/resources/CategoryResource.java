@@ -1,6 +1,6 @@
 package com.genka.resources;
 
-import com.genka.domain.Category;
+import com.genka.domain.product.Category;
 import com.genka.dtos.CategoryNewDTO;
 import com.genka.services.CategoryService;
 import org.springframework.http.HttpStatus;

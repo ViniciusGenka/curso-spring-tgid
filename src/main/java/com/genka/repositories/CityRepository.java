@@ -1,6 +1,6 @@
 package com.genka.repositories;
 
-import com.genka.domain.City;
+import com.genka.domain.address.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.genka.dtos;
 
-import com.genka.domain.Category;
+import com.genka.domain.product.Category;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;

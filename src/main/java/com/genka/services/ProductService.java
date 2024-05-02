@@ -1,7 +1,7 @@
 package com.genka.services;
 
-import com.genka.domain.Category;
-import com.genka.domain.Product;
+import com.genka.domain.product.Category;
+import com.genka.domain.product.Product;
 import com.genka.dtos.ProductNewDTO;
 import com.genka.repositories.CategoryRepository;
 import com.genka.repositories.ProductRepository;

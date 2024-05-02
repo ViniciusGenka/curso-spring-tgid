@@ -1,6 +1,6 @@
 package com.genka.resources;
 
-import com.genka.domain.Customer;
+import com.genka.domain.customer.Customer;
 import com.genka.dtos.CustomerNewDTO;
 import com.genka.services.CustomerService;
 import org.springframework.http.HttpStatus;

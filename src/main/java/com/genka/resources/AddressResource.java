@@ -1,6 +1,6 @@
 package com.genka.resources;
 
-import com.genka.domain.Address;
+import com.genka.domain.address.Address;
 import com.genka.dtos.AddressNewDTO;
 import com.genka.services.AddressService;
 import org.springframework.http.HttpStatus;

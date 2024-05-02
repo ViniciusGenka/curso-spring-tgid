@@ -1,6 +1,8 @@
-package com.genka.domain;
+package com.genka.domain.product;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.genka.domain.order.Order;
+import com.genka.domain.order.OrderItem;
 
 import javax.persistence.*;
 import java.io.Serializable;

@@ -1,6 +1,6 @@
 package com.genka.repositories;
 
-import com.genka.domain.Customer;
+import com.genka.domain.customer.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

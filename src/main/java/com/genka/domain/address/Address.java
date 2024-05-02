@@ -1,6 +1,7 @@
-package com.genka.domain;
+package com.genka.domain.address;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.genka.domain.customer.Customer;
 
 import javax.persistence.*;
 import java.io.Serializable;

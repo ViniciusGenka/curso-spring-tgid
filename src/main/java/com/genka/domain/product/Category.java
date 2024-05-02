@@ -1,4 +1,4 @@
-package com.genka.domain;
+package com.genka.domain.product;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 

@@ -1,7 +1,6 @@
 package com.genka.services;
 
-import com.genka.domain.Address;
-import com.genka.domain.Customer;
+import com.genka.domain.customer.Customer;
 import com.genka.dtos.CustomerNewDTO;
 import com.genka.repositories.CustomerRepository;
 import com.genka.resources.exceptions.EntityNotFoundException;

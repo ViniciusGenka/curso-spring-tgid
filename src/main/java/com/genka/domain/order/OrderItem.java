@@ -1,6 +1,7 @@
-package com.genka.domain;
+package com.genka.domain.order;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genka.domain.product.Product;
 
 import javax.persistence.*;
 import java.io.Serializable;

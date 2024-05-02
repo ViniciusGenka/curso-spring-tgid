@@ -1,4 +1,4 @@
-package com.genka.domain;
+package com.genka.domain.order;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
