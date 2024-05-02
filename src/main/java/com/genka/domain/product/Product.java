@@ -1,5 +1,7 @@
 package com.genka.domain.product;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.genka.domain.order.Order;
 import com.genka.domain.order.OrderItem;
@@ -25,10 +27,17 @@ public class Product implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories = new ArrayList<>();
+    @JsonBackReference
     @OneToMany(mappedBy = "product")
     private Set<OrderItem> items = new HashSet<>();
 
     public Product() {
+    }
+
+    public Product(String name, Double price, List<Category> categories) {
+        this.name = name;
+        this.price = price;
+        this.categories = categories;
     }
 
     public Product(Integer id, String name, Double price, List<Category> categories, Set<OrderItem> items) {
@@ -79,6 +88,7 @@ public class Product implements Serializable {
         this.items = items;
     }
 
+    @JsonIgnore
     public List<Order> getOrders() {
         return items.stream()
                 .map(OrderItem::getOrder)

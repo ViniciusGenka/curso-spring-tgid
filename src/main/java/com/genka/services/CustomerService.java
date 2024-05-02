@@ -30,7 +30,6 @@ public class CustomerService {
 
     public Customer mapFromDTO(CustomerNewDTO customerNewDTO) {
         return new Customer(
-                null,
                 customerNewDTO.getEmail(),
                 customerNewDTO.getName(),
                 customerNewDTO.getIdentification(),

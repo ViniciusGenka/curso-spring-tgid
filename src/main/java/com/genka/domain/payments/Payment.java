@@ -58,11 +58,11 @@ public class Payment implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Payment payment = (Payment) o;
-        return Objects.equals(id, payment.id) && Objects.equals(status, payment.status) && Objects.equals(order, payment.order);
+        return Objects.equals(id, payment.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, status, order);
+        return Objects.hash(id);
     }
 }

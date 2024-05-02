@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.genka.domain.address.Address;
 import com.genka.domain.enums.CustomerType;
-import com.genka.domain.payments.Payment;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,8 +23,6 @@ public class Customer implements Serializable {
     private Integer type;
     @JsonIgnore
     private String password;
-    @OneToMany(mappedBy = "customer")
-    private List<Payment> payments = new ArrayList<>();
     @JsonManagedReference
     @OneToMany(mappedBy = "customer")
     private List<Address> addresses = new ArrayList<>();
@@ -36,14 +33,22 @@ public class Customer implements Serializable {
     public Customer() {
     }
 
-    public Customer(Integer id, String email, String name, String identification, Integer type, String password, List<Payment> payments, List<Address> addresses, Set<String> phones) {
+    public Customer(String email, String name, String identification, CustomerType type, String password, Set<String> phones) {
+        this.email = email;
+        this.name = name;
+        this.identification = identification;
+        this.type = type.getValue();
+        this.password = password;
+        this.phones = phones;
+    }
+
+    public Customer(Integer id, String email, String name, String identification, CustomerType type, String password, List<Address> addresses, Set<String> phones) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.identification = identification;
-        this.type = type;
+        this.type = type.getValue();
         this.password = password;
-        this.payments = payments;
         this.addresses = addresses;
         this.phones = phones;
     }
@@ -102,14 +107,6 @@ public class Customer implements Serializable {
         this.password = password;
     }
 
-    public List<Payment> getPayments() {
-        return payments;
-    }
-
-    public void setPayments(List<Payment> payments) {
-        this.payments = payments;
-    }
-
     public List<Address> getAddresses() {
         return addresses;
     }
@@ -131,11 +128,11 @@ public class Customer implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return Objects.equals(id, customer.id) && Objects.equals(email, customer.email) && Objects.equals(name, customer.name) && Objects.equals(identification, customer.identification) && Objects.equals(type, customer.type) && Objects.equals(password, customer.password) && Objects.equals(payments, customer.payments) && Objects.equals(addresses, customer.addresses) && Objects.equals(phones, customer.phones);
+        return Objects.equals(id, customer.id) && Objects.equals(email, customer.email) && Objects.equals(name, customer.name) && Objects.equals(identification, customer.identification) && Objects.equals(type, customer.type) && Objects.equals(password, customer.password) && Objects.equals(addresses, customer.addresses) && Objects.equals(phones, customer.phones);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, name, identification, type, password, payments, addresses, phones);
+        return Objects.hash(id, email, name, identification, type, password, addresses, phones);
     }
 }

@@ -1,6 +1,7 @@
 package com.genka.domain.order;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.genka.domain.customer.Customer;
 import com.genka.domain.address.Address;
 import com.genka.domain.payments.Payment;
@@ -13,39 +14,39 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Table(name = "ORDERS")
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @JsonFormat(pattern="dd/MM/yyyy HH:mm")
-    private Date timestamp;
-
+    private Date timestamp = new Date();
     @OneToOne(cascade = CascadeType.ALL, mappedBy="order")
     private Payment payment;
-
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
-
     @ManyToOne
     @JoinColumn(name = "destination_address_id")
     private Address destinationAddress;
-
-    @OneToMany(mappedBy = "order")
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private Set<OrderItem> items = new HashSet<>();
 
     public Order() {
     }
 
-    public Order(Integer id, Date timestamp, Payment payment, Customer customer, Address destinationAddress, Set<OrderItem> items) {
+    public Order(Integer id, Customer customer, Address destinationAddress, Set<OrderItem> items) {
         this.id = id;
-        this.timestamp = timestamp;
-        this.payment = payment;
         this.customer = customer;
         this.destinationAddress = destinationAddress;
         this.items = items;
+    }
+
+    public Order(Customer customer, Address destinationAddress) {
+        this.customer = customer;
+        this.destinationAddress = destinationAddress;
     }
 
     public Integer getId() {
@@ -101,11 +102,11 @@ public class Order implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(timestamp, order.timestamp) && Objects.equals(payment, order.payment) && Objects.equals(customer, order.customer) && Objects.equals(destinationAddress, order.destinationAddress) && Objects.equals(items, order.items);
+        return Objects.equals(id, order.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, timestamp, payment, customer, destinationAddress, items);
+        return Objects.hash(id);
     }
 }

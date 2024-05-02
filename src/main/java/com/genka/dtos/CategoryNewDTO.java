@@ -1,6 +1,5 @@
 package com.genka.dtos;
 
-import com.genka.domain.product.Category;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -8,7 +7,6 @@ import java.io.Serializable;
 
 public class CategoryNewDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    private Integer id;
     @NotEmpty(message="name is required")
     @Length(min=1, max=80, message = "name length must be between 1 and 80 characters")
     private String name;
@@ -16,17 +14,8 @@ public class CategoryNewDTO implements Serializable {
     public CategoryNewDTO() {
     }
 
-    public CategoryNewDTO(Category category) {
-        this.id = category.getId();
-        this.name = category.getName();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public CategoryNewDTO(String name) {
+        this.name = name;
     }
 
     public String getName() {

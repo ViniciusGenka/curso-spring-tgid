@@ -31,7 +31,6 @@ public class CategoryService {
 
     public Category mapFromDTO(CategoryNewDTO categoryNewDTO) {
         return new Category(
-                categoryNewDTO.getId(),
                 categoryNewDTO.getName()
         );
     }

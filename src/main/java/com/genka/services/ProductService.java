@@ -41,7 +41,6 @@ public class ProductService {
             categories.add(category);
         }
         return new Product(
-                productNewDTO.getId(),
                 productNewDTO.getName(),
                 productNewDTO.getPrice(),
                 categories

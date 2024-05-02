@@ -1,6 +1,8 @@
 package com.genka.domain.order;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.genka.domain.product.Product;
 
 import javax.persistence.*;
@@ -13,10 +15,12 @@ public class OrderItem implements Serializable {
     @JsonIgnore
     @EmbeddedId
     private OrderItemId id;
+    @JsonBackReference
     @ManyToOne
     @MapsId("orderId")
     @JoinColumn(name = "order_id")
     private Order order;
+    @JsonManagedReference
     @ManyToOne
     @MapsId("productId")
     @JoinColumn(name = "product_id")
@@ -30,6 +34,8 @@ public class OrderItem implements Serializable {
 
     public OrderItem(Order order, Product product, Double discount, Integer quantity, Double price) {
         this.id = new OrderItemId(order.getId(), product.getId());
+        this.order = order;
+        this.product = product;
         this.discount = discount;
         this.quantity = quantity;
         this.price = price;
@@ -88,11 +94,11 @@ public class OrderItem implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderItem orderItem = (OrderItem) o;
-        return Objects.equals(id, orderItem.id) && Objects.equals(order, orderItem.order) && Objects.equals(product, orderItem.product) && Objects.equals(discount, orderItem.discount) && Objects.equals(quantity, orderItem.quantity) && Objects.equals(price, orderItem.price);
+        return Objects.equals(id, orderItem.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, order, product, discount, quantity, price);
+        return Objects.hash(id);
     }
 }

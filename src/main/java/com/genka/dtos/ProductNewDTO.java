@@ -12,7 +12,6 @@ import java.util.List;
 
 public class ProductNewDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    private Integer id;
     @NotEmpty(message="name is required")
     @Length(min=1, max=80, message = "name length must be between 1 and 80 characters")
     private String name;
@@ -26,19 +25,10 @@ public class ProductNewDTO implements Serializable {
     public ProductNewDTO() {
     }
 
-    public ProductNewDTO(Integer id, String name, Double price, List<Integer> categoryIds) {
-        this.id = id;
+    public ProductNewDTO(String name, Double price, List<Integer> categoryIds) {
         this.name = name;
         this.price = price;
         this.categoryIds = categoryIds;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
