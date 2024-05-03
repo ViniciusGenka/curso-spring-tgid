@@ -1,6 +1,7 @@
 package com.genka.resources;
 
 import com.genka.domain.product.Category;
+import com.genka.dtos.CategoryDTO;
 import com.genka.dtos.CategoryNewDTO;
 import com.genka.services.CategoryService;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/categories")
@@ -23,6 +26,12 @@ public class CategoryResource {
     public ResponseEntity<Category> getCategoryById(@PathVariable Integer id) {
         Category category = categoryService.getCategoryById(id);
         return ResponseEntity.status(HttpStatus.OK).body(category);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<CategoryDTO>> findAllCategories() {
+        List<Category> categories = categoryService.findAllCategories();
+        return ResponseEntity.status(HttpStatus.OK).body(categories.stream().map(CategoryDTO::new).collect(Collectors.toList()));
     }
 
     @PostMapping()

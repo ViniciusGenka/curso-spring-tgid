@@ -8,6 +8,7 @@ import com.genka.resources.exceptions.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +22,10 @@ public class CategoryService {
 
     public Optional<Category> findCategoryById(Integer id) {
         return categoryRepository.findById(id);
+    }
+
+    public List<Category> findAllCategories() {
+        return categoryRepository.findAll();
     }
 
     public Category getCategoryById(Integer categoryId) {
