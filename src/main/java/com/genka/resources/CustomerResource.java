@@ -29,4 +29,18 @@ public class CustomerResource {
         Customer savedCustomer = customerService.saveCustomer(customerService.mapFromDTO(customerNewDTO));
         return ResponseEntity.status(HttpStatus.OK).body(savedCustomer);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Customer> updateCustomer(@Valid @RequestBody CustomerNewDTO customerUpdateDTO, @PathVariable Integer id) {
+        Customer customerToUpdate = customerService.mapFromDTO(customerUpdateDTO);
+        customerToUpdate.setId(id);
+        Customer savedCustomer = customerService.updateCustomer(customerToUpdate);
+        return ResponseEntity.status(HttpStatus.OK).body(savedCustomer);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Customer> deleteCustomer(@PathVariable Integer id) {
+        customerService.deleteCustomer(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
