@@ -1,6 +1,7 @@
 package com.genka.domain.product;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,7 +16,7 @@ public class Category implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @JsonBackReference
+    @JsonManagedReference
     @ManyToMany(mappedBy = "categories")
     private List<Product> products = new ArrayList<>();
 
