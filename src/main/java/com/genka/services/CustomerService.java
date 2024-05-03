@@ -3,7 +3,9 @@ package com.genka.services;
 import com.genka.domain.customer.Customer;
 import com.genka.dtos.CustomerNewDTO;
 import com.genka.repositories.CustomerRepository;
+import com.genka.resources.exceptions.DataIntegrityException;
 import com.genka.resources.exceptions.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -26,6 +28,20 @@ public class CustomerService {
 
     public Customer saveCustomer(Customer customer) {
         return customerRepository.save(customer);
+    }
+
+    public Customer updateCustomer(Customer customer) {
+        getCustomerById(customer.getId());
+        return customerRepository.save(customer);
+    }
+
+    public void deleteCustomer(Integer customerId) {
+        Customer customerToDelete = getCustomerById(customerId);
+        try {
+            customerRepository.delete(customerToDelete);
+        } catch (DataIntegrityViolationException ex) {
+            throw new DataIntegrityException("Customer cannot be deleted if there are orders linked to it");
+        }
     }
 
     public Customer mapFromDTO(CustomerNewDTO customerNewDTO) {
