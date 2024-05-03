@@ -24,7 +24,7 @@ public class Customer implements Serializable {
     @JsonIgnore
     private String password;
     @JsonManagedReference
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Address> addresses = new ArrayList<>();
     @ElementCollection
     @CollectionTable(name = "PHONES")
