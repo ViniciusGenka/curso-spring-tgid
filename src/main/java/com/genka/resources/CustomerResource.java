@@ -2,6 +2,7 @@ package com.genka.resources;
 
 import com.genka.domain.customer.Customer;
 import com.genka.dtos.CustomerNewDTO;
+import com.genka.dtos.CustomerUpdateDTO;
 import com.genka.services.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +32,8 @@ public class CustomerResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@Valid @RequestBody CustomerNewDTO customerUpdateDTO, @PathVariable Integer id) {
-        Customer customerToUpdate = customerService.mapFromDTO(customerUpdateDTO);
-        customerToUpdate.setId(id);
-        Customer savedCustomer = customerService.updateCustomer(customerToUpdate);
+    public ResponseEntity<Customer> updateCustomer(@Valid @RequestBody CustomerUpdateDTO customerUpdate, @PathVariable Integer id) {
+        Customer savedCustomer = customerService.updateCustomer(id, customerUpdate);
         return ResponseEntity.status(HttpStatus.OK).body(savedCustomer);
     }
 

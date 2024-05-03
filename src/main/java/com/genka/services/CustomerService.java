@@ -2,6 +2,7 @@ package com.genka.services;
 
 import com.genka.domain.customer.Customer;
 import com.genka.dtos.CustomerNewDTO;
+import com.genka.dtos.CustomerUpdateDTO;
 import com.genka.repositories.CustomerRepository;
 import com.genka.resources.exceptions.DataIntegrityException;
 import com.genka.resources.exceptions.EntityNotFoundException;
@@ -30,9 +31,15 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public Customer updateCustomer(Customer customer) {
-        getCustomerById(customer.getId());
-        return customerRepository.save(customer);
+    public Customer updateCustomer(Integer customerId, CustomerUpdateDTO customerUpdate) {
+        Customer customerToUpdate = getCustomerById(customerId);
+        mapCustomerUpdates(customerToUpdate, customerUpdate);
+        return customerRepository.save(customerToUpdate);
+    }
+
+    private void mapCustomerUpdates(Customer customerToUpdate, CustomerUpdateDTO update) {
+        customerToUpdate.setName(update.getName());
+        customerToUpdate.setEmail(update.getEmail());
     }
 
     public void deleteCustomer(Integer customerId) {
