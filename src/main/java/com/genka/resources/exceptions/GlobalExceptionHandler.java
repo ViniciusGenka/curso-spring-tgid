@@ -32,6 +32,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(DataIntegrityException.class)
+    public ResponseEntity<ErrorDetails> dataIntegrityException(DataIntegrityException ex, HttpServletRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.name(),
+                ex.getMessage());
+        return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorResponse> methodArgumentNotValidException(MethodArgumentNotValidException ex) {
         List<ValidationErrorDetails> errors = new ArrayList<>();

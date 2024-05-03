@@ -3,7 +3,9 @@ package com.genka.services;
 import com.genka.domain.product.Category;
 import com.genka.dtos.CategoryNewDTO;
 import com.genka.repositories.CategoryRepository;
+import com.genka.resources.exceptions.DataIntegrityException;
 import com.genka.resources.exceptions.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,13 +27,22 @@ public class CategoryService {
         return categoryRepository.findById(categoryId).orElseThrow(() -> new EntityNotFoundException("Category with id " + categoryId + " not found"));
     }
 
+    public Category saveCategory(Category category) {
+        return categoryRepository.save(category);
+    }
+
     public Category updateCategory(Category category) {
         getCategoryById(category.getId());
         return categoryRepository.save(category);
     }
 
-    public Category saveCategory(Category category) {
-        return categoryRepository.save(category);
+    public void deleteCategory(Integer categoryId) {
+        Category categoryToDelete = getCategoryById(categoryId);
+        try {
+            categoryRepository.delete(categoryToDelete);
+        } catch (DataIntegrityViolationException ex) {
+            throw new DataIntegrityException("Category cannot be deleted if there are products linked to it");
+        }
     }
 
     public Category mapFromDTO(CategoryNewDTO categoryNewDTO) {
