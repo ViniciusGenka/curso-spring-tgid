@@ -6,6 +6,8 @@ import com.genka.repositories.CategoryRepository;
 import com.genka.resources.exceptions.DataIntegrityException;
 import com.genka.resources.exceptions.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +28,10 @@ public class CategoryService {
 
     public List<Category> findAllCategories() {
         return categoryRepository.findAll();
+    }
+
+    public Page<Category> findAllPaginatedCategories(Pageable pageable) {
+        return categoryRepository.findAll(pageable);
     }
 
     public Category getCategoryById(Integer categoryId) {
