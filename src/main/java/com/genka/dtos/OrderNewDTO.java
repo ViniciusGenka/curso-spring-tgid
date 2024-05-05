@@ -1,5 +1,7 @@
 package com.genka.dtos;
 
+import com.genka.domain.payments.Payment;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,14 +10,16 @@ public class OrderNewDTO implements Serializable {
     private Integer customerId;
     private Integer destinationAddressId;
     private List<OrderItemNewDTO> items;
+    private Payment payment;
 
     public OrderNewDTO() {
     }
 
-    public OrderNewDTO(Integer customerId, Integer destinationAddressId, List<OrderItemNewDTO> items) {
+    public OrderNewDTO(Integer customerId, Integer destinationAddressId, List<OrderItemNewDTO> items, Payment payment) {
         this.customerId = customerId;
         this.destinationAddressId = destinationAddressId;
         this.items = items;
+        this.payment = payment;
     }
 
     public Integer getCustomerId() {
@@ -40,5 +44,13 @@ public class OrderNewDTO implements Serializable {
 
     public void setItems(List<OrderItemNewDTO> items) {
         this.items = items;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 }

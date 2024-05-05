@@ -1,6 +1,7 @@
 package com.genka.domain.payments;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.genka.domain.order.Order;
 import com.genka.domain.enums.PaymentStatus;
 
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import java.util.Date;
 
 @Entity
+@JsonTypeName("bankSlipPayment")
 public class BankSlipPayment extends Payment{
     private static final long serialVersionUID = 1L;
     @JsonFormat(pattern = "dd/MM/yyyy")

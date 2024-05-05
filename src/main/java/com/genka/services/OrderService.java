@@ -5,7 +5,7 @@ import com.genka.domain.customer.Customer;
 import com.genka.domain.enums.PaymentStatus;
 import com.genka.domain.order.Order;
 import com.genka.domain.order.OrderItem;
-import com.genka.domain.payments.Payment;
+import com.genka.domain.payments.BankSlipPayment;
 import com.genka.domain.product.Product;
 import com.genka.dtos.OrderItemNewDTO;
 import com.genka.dtos.OrderNewDTO;
@@ -13,6 +13,7 @@ import com.genka.repositories.OrderRepository;
 import com.genka.resources.exceptions.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,13 +24,15 @@ public class OrderService {
     private final ProductService productService;
     private final CustomerService customerService;
     private final AddressService addressService;
+    private final PaymentService paymentService;
 
 
-    public OrderService(OrderRepository orderRepository, ProductService productService, CustomerService customerService, AddressService addressService) {
+    public OrderService(OrderRepository orderRepository, ProductService productService, CustomerService customerService, AddressService addressService, PaymentService paymentService) {
         this.orderRepository = orderRepository;
         this.productService = productService;
         this.customerService = customerService;
         this.addressService = addressService;
+        this.paymentService = paymentService;
     }
 
     public Optional<Order> findOrderById(Integer id) {
@@ -58,9 +61,13 @@ public class OrderService {
                     product.getPrice()
             );
         }).collect(Collectors.toSet());
-        Payment payment = new Payment(null, PaymentStatus.PENDENTE, order);
+        if(orderNewDTO.getPayment() instanceof BankSlipPayment) {
+            paymentService.setBankSlipPaymentExpirationDate((BankSlipPayment) orderNewDTO.getPayment(), new Date());
+        }
+        orderNewDTO.getPayment().setStatus(PaymentStatus.PENDENTE);
+        orderNewDTO.getPayment().setOrder(order);
+        order.setPayment(orderNewDTO.getPayment());
         order.setItems(items);
-        order.setPayment(payment);
         return order;
     }
 }
