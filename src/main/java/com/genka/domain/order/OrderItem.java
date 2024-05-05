@@ -27,18 +27,20 @@ public class OrderItem implements Serializable {
     private Product product;
     private Double discount;
     private Integer quantity;
-    private Double price;
+    private Double unitPrice;
+    private Double totalPrice;
 
     public OrderItem() {
     }
 
-    public OrderItem(Order order, Product product, Double discount, Integer quantity, Double price) {
+    public OrderItem(Order order, Product product, Double discount, Integer quantity, Double unitPrice) {
         this.id = new OrderItemId(order.getId(), product.getId());
         this.order = order;
         this.product = product;
         this.discount = discount;
         this.quantity = quantity;
-        this.price = price;
+        this.unitPrice = unitPrice;
+        this.totalPrice = (unitPrice - discount) * quantity;
     }
 
     public OrderItemId getId() {
@@ -81,12 +83,20 @@ public class OrderItem implements Serializable {
         this.quantity = quantity;
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     @Override

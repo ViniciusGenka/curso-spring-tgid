@@ -33,6 +33,7 @@ public class Order implements Serializable {
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private Set<OrderItem> items = new HashSet<>();
+    private Double totalPrice;
 
     public Order() {
     }
@@ -42,6 +43,7 @@ public class Order implements Serializable {
         this.customer = customer;
         this.destinationAddress = destinationAddress;
         this.items = items;
+        this.totalPrice = items.stream().map(item -> getTotalPrice()).reduce(0.0, Double::sum);
     }
 
     public Order(Customer customer, Address destinationAddress) {
@@ -95,6 +97,13 @@ public class Order implements Serializable {
 
     public void setItems(Set<OrderItem> items) {
         this.items = items;
+        this.totalPrice = items.stream()
+                .mapToDouble(OrderItem::getTotalPrice)
+                .sum();
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
     }
 
     @Override
