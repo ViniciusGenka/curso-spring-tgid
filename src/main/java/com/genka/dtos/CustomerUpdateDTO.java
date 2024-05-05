@@ -1,9 +1,12 @@
 package com.genka.dtos;
 
+import com.genka.services.validations.CustomerUpdate;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
+@CustomerUpdate
 public class CustomerUpdateDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @NotBlank(message = "email is required")
