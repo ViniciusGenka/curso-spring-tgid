@@ -2,6 +2,7 @@ package com.genka.services;
 
 import com.genka.domain.product.Category;
 import com.genka.dtos.CategoryNewDTO;
+import com.genka.dtos.CategoryUpdateDTO;
 import com.genka.repositories.CategoryRepository;
 import com.genka.resources.exceptions.DataIntegrityException;
 import com.genka.resources.exceptions.EntityNotFoundException;
@@ -42,9 +43,14 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category updateCategory(Category category) {
-        getCategoryById(category.getId());
-        return categoryRepository.save(category);
+    public Category updateCategory(Integer categoryId, CategoryUpdateDTO categoryUpdate) {
+        Category categoryToUpdate = getCategoryById(categoryId);
+        mapCategoryUpdates(categoryToUpdate, categoryUpdate);
+        return categoryRepository.save(categoryToUpdate);
+    }
+
+    private void mapCategoryUpdates(Category categoryToUpdate, CategoryUpdateDTO update) {
+        categoryToUpdate.setName(update.getName());
     }
 
     public void deleteCategory(Integer categoryId) {

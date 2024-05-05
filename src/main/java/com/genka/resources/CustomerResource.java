@@ -33,8 +33,8 @@ public class CustomerResource {
 
     @PutMapping("/{id}")
     public ResponseEntity<Customer> updateCustomer(@Valid @RequestBody CustomerUpdateDTO customerUpdate, @PathVariable Integer id) {
-        Customer savedCustomer = customerService.updateCustomer(id, customerUpdate);
-        return ResponseEntity.status(HttpStatus.OK).body(savedCustomer);
+        Customer updatedCustomer = customerService.updateCustomer(id, customerUpdate);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedCustomer);
     }
 
     @DeleteMapping("/{id}")

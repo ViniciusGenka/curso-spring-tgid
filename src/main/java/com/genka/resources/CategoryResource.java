@@ -3,6 +3,7 @@ package com.genka.resources;
 import com.genka.domain.product.Category;
 import com.genka.dtos.CategoryDTO;
 import com.genka.dtos.CategoryNewDTO;
+import com.genka.dtos.CategoryUpdateDTO;
 import com.genka.services.CategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,11 +49,9 @@ public class CategoryResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@Valid @RequestBody CategoryNewDTO categoryUpdateDTO, @PathVariable Integer id) {
-        Category categoryToUpdate = categoryService.mapFromDTO(categoryUpdateDTO);
-        categoryToUpdate.setId(id);
-        Category savedCategory = categoryService.updateCategory(categoryToUpdate);
-        return ResponseEntity.status(HttpStatus.OK).body(savedCategory);
+    public ResponseEntity<Category> updateCategory(@Valid @RequestBody CategoryUpdateDTO categoryUpdateDTO, @PathVariable Integer id) {
+        Category updatedCategory = categoryService.updateCategory(id, categoryUpdateDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedCategory);
     }
 
     @DeleteMapping("/{id}")
