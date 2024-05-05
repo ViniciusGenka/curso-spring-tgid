@@ -1,6 +1,7 @@
 package com.genka.dtos;
 
 import com.genka.domain.enums.CustomerType;
+import com.genka.services.validations.CustomerInsert;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Set;
 
+@CustomerInsert
 public class CustomerNewDTO implements Serializable {
     @NotBlank(message = "email is required")
     @Email(message="invalid email")
