@@ -25,14 +25,15 @@ public class OrderService {
     private final CustomerService customerService;
     private final AddressService addressService;
     private final PaymentService paymentService;
+    private final EmailService emailService;
 
-
-    public OrderService(OrderRepository orderRepository, ProductService productService, CustomerService customerService, AddressService addressService, PaymentService paymentService) {
+    public OrderService(OrderRepository orderRepository, ProductService productService, CustomerService customerService, AddressService addressService, PaymentService paymentService, EmailService emailService) {
         this.orderRepository = orderRepository;
         this.productService = productService;
         this.customerService = customerService;
         this.addressService = addressService;
         this.paymentService = paymentService;
+        this.emailService = emailService;
     }
 
     public Optional<Order> findOrderById(Integer id) {
@@ -45,7 +46,7 @@ public class OrderService {
 
     public Order saveOrder(Order order) {
         Order savedOrder = orderRepository.save(order);
-        System.out.println(savedOrder);
+        emailService.sendOrderConfirmationEmail(order);
         return savedOrder;
     }
 
