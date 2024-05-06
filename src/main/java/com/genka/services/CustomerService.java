@@ -7,6 +7,7 @@ import com.genka.repositories.CustomerRepository;
 import com.genka.resources.exceptions.DataIntegrityException;
 import com.genka.resources.exceptions.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,9 +15,11 @@ import java.util.Optional;
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final BCryptPasswordEncoder bcrypt;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, BCryptPasswordEncoder bcrypt) {
         this.customerRepository = customerRepository;
+        this.bcrypt = bcrypt;
     }
 
     public Optional<Customer> findCustomerById(Integer id) {
@@ -57,7 +60,7 @@ public class CustomerService {
                 customerNewDTO.getName(),
                 customerNewDTO.getIdentification(),
                 customerNewDTO.getType(),
-                customerNewDTO.getPassword(),
+                bcrypt.encode(customerNewDTO.getPassword()),
                 customerNewDTO.getPhones()
         );
     }
