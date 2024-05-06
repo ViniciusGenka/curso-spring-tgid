@@ -46,7 +46,7 @@ public class OrderService {
 
     public Order saveOrder(Order order) {
         Order savedOrder = orderRepository.save(order);
-        emailService.sendOrderConfirmationEmail(order);
+        emailService.sendOrderConfirmationHtmlEmail(order);
         return savedOrder;
     }
 

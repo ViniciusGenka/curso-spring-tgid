@@ -1,14 +1,25 @@
 package com.genka.services;
 
 import com.genka.domain.order.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.Date;
 
 public abstract class AbstractEmailService implements EmailService{
     @Value("${default.sender}")
     private String sender;
+    @Autowired
+    private TemplateEngine templateEngine;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @Override
     public void sendOrderConfirmationEmail(Order order) {
@@ -24,5 +35,32 @@ public abstract class AbstractEmailService implements EmailService{
         sm.setSentDate(new Date(System.currentTimeMillis()));
         sm.setText(order.toString());
         return sm;
+    }
+
+    protected MimeMessage prepareMimeMessageFromOrder(Order order) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
+        messageHelper.setTo(order.getCustomer().getEmail());
+        messageHelper.setFrom(sender);
+        messageHelper.setSubject("Pedido confirmado! Código: " + order.getId());
+        messageHelper.setSentDate(new Date(System.currentTimeMillis()));
+        messageHelper.setText(prepareHtmlMessageFromOrder(order), true);
+        return message;
+    }
+
+    protected String prepareHtmlMessageFromOrder(Order order) {
+        Context context = new Context();
+        context.setVariable("order", order);
+        return templateEngine.process("email/orderConfirmation", context);
+    }
+
+    @Override
+    public void sendOrderConfirmationHtmlEmail(Order order) {
+        try {
+            MimeMessage message = prepareMimeMessageFromOrder(order);
+            sendHtmlEmail(message);
+        } catch (MessagingException ex) {
+            sendOrderConfirmationEmail(order);
+        }
     }
 }
