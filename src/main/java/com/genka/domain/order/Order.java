@@ -8,10 +8,9 @@ import com.genka.domain.payments.Payment;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Entity
 @Table(name = "ORDERS")
@@ -117,5 +116,27 @@ public class Order implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        StringBuilder builder = new StringBuilder();
+        builder.append("Número do Pedido: ");
+        builder.append(getId());
+        builder.append(", Timestamp: ");
+        builder.append(sdf.format(getTimestamp()));
+        builder.append(", Cliente: ");
+        builder.append(getCustomer().getName());
+        builder.append(", Situação do Pagamento: ");
+        builder.append(getPayment().getStatus().getDescription());
+        builder.append("\nDetalhes:\n");
+        for (OrderItem item : getItems()) {
+            builder.append(item.toString());
+        }
+        builder.append("Valor total: ");
+        builder.append(nf.format(getTotalPrice()));
+        return builder.toString();
     }
 }

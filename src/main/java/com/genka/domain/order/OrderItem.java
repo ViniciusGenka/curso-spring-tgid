@@ -7,6 +7,8 @@ import com.genka.domain.product.Product;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 @Entity
@@ -110,5 +112,18 @@ public class OrderItem implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        return getProduct().getName() +
+                ", Quantidade: " +
+                getQuantity() +
+                ", Preço unitário: " +
+                nf.format(getUnitPrice()) +
+                ", Subtotal: " +
+                nf.format(getTotalPrice()) +
+                "\n";
     }
 }

@@ -44,7 +44,9 @@ public class OrderService {
     }
 
     public Order saveOrder(Order order) {
-        return orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
+        System.out.println(savedOrder);
+        return savedOrder;
     }
 
     public Order mapFromDTO(OrderNewDTO orderNewDTO) {
