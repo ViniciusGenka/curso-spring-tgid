@@ -11,6 +11,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CustomerInsertValidator implements ConstraintValidator<CustomerInsert, CustomerNewDTO> {
     private final CustomerRepository customerRepository;
@@ -36,8 +37,8 @@ public class CustomerInsertValidator implements ConstraintValidator<CustomerInse
             list.add(new ValidationErrorDetails("identification", "CNPJ inválido"));
         }
 
-        Customer customer = customerRepository.findCustomerByEmail(customerNewDTO.getEmail());
-        if (customer != null) {
+        Optional<Customer> customer = customerRepository.findCustomerByEmail(customerNewDTO.getEmail());
+        if (customer.isPresent()) {
             list.add(new ValidationErrorDetails("email", "email already exists"));
         }
 

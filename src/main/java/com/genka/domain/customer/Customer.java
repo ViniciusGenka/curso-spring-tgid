@@ -31,7 +31,7 @@ public class Customer implements Serializable {
     @ElementCollection
     @CollectionTable(name = "PHONES")
     private Set<String> phones = new HashSet<>();
-    @ElementCollection
+    @ElementCollection(fetch=FetchType.EAGER)
     @CollectionTable(name = "ROLES")
     private Set<Integer> roles = new HashSet<>();
 

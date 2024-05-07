@@ -30,6 +30,10 @@ public class CustomerService {
         return customerRepository.findById(customerId).orElseThrow(() -> new EntityNotFoundException("Customer with id " + customerId + " not found"));
     }
 
+    public Customer getCustomerByEmail(String email) {
+        return customerRepository.findCustomerByEmail(email).orElseThrow(() -> new EntityNotFoundException("Customer with email " + email + " not found"));
+    }
+
     public Customer saveCustomer(Customer customer) {
         return customerRepository.save(customer);
     }

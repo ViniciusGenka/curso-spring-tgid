@@ -6,6 +6,7 @@ import com.genka.dtos.CustomerUpdateDTO;
 import com.genka.services.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,6 +38,7 @@ public class CustomerResource {
         return ResponseEntity.status(HttpStatus.OK).body(updatedCustomer);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Customer> deleteCustomer(@PathVariable Integer id) {
         customerService.deleteCustomer(id);
