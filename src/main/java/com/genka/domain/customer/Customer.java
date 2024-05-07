@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.genka.domain.address.Address;
 import com.genka.domain.enums.CustomerType;
+import com.genka.domain.enums.UserRole;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Customer implements Serializable {
@@ -29,8 +31,12 @@ public class Customer implements Serializable {
     @ElementCollection
     @CollectionTable(name = "PHONES")
     private Set<String> phones = new HashSet<>();
+    @ElementCollection
+    @CollectionTable(name = "ROLES")
+    private Set<Integer> roles = new HashSet<>();
 
     public Customer() {
+        addRole(UserRole.CUSTOMER);
     }
 
     public Customer(String email, String name, String identification, CustomerType type, String password, Set<String> phones) {
@@ -40,6 +46,7 @@ public class Customer implements Serializable {
         this.type = type.getValue();
         this.password = password;
         this.phones = phones;
+        addRole(UserRole.CUSTOMER);
     }
 
     public Customer(Integer id, String email, String name, String identification, CustomerType type, String password, List<Address> addresses, Set<String> phones) {
@@ -51,6 +58,7 @@ public class Customer implements Serializable {
         this.password = password;
         this.addresses = addresses;
         this.phones = phones;
+        addRole(UserRole.CUSTOMER);
     }
 
     public Integer getId() {
@@ -121,6 +129,14 @@ public class Customer implements Serializable {
 
     public void setPhones(Set<String> phones) {
         this.phones = phones;
+    }
+
+    public Set<UserRole> getRoles() {
+        return roles.stream().map(UserRole::toEnum).collect(Collectors.toSet());
+    }
+
+    public void addRole(UserRole userRole) {
+        roles.add(userRole.getValue());
     }
 
     @Override

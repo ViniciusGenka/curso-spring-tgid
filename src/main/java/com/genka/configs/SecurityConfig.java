@@ -24,12 +24,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PUBLIC_MATCHERS_GET = {
             "/products/**",
-            "/categories/**"
+            "/categories/**",
+            "/customers/**"
     };
 
     private static final String[] PUBLIC_MATCHERS_POST = {
-            "/clientes/**",
-            "/auth/forgot/**"
+            "/customers/**"
     };
 
     @Override
@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
+                .antMatchers(PUBLIC_MATCHERS_POST).permitAll()
                 .anyRequest().authenticated();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
