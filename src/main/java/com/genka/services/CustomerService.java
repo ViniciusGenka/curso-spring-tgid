@@ -1,11 +1,14 @@
 package com.genka.services;
 
 import com.genka.domain.customer.Customer;
+import com.genka.domain.enums.UserRole;
 import com.genka.dtos.CustomerNewDTO;
 import com.genka.dtos.CustomerUpdateDTO;
 import com.genka.repositories.CustomerRepository;
+import com.genka.resources.exceptions.AuthorizationException;
 import com.genka.resources.exceptions.DataIntegrityException;
 import com.genka.resources.exceptions.EntityNotFoundException;
+import com.genka.security.UserAuthDetails;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,10 @@ public class CustomerService {
     }
 
     public Customer getCustomerById(Integer customerId) {
+        UserAuthDetails authenticatedUser = UserService.getAuthenticatedUser();
+        if (authenticatedUser == null || !authenticatedUser.hasRole(UserRole.ADMIN) && !customerId.equals(authenticatedUser.getId())) {
+            throw new AuthorizationException("Acesso negado");
+        }
         return customerRepository.findById(customerId).orElseThrow(() -> new EntityNotFoundException("Customer with id " + customerId + " not found"));
     }
 

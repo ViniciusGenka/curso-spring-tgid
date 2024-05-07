@@ -67,4 +67,8 @@ public class UserAuthDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public boolean hasRole(UserRole userRole) {
+        return authorities.contains(new SimpleGrantedAuthority(userRole.getDescription()));
+    }
 }
