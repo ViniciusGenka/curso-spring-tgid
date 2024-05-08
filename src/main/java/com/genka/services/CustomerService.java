@@ -81,6 +81,14 @@ public class CustomerService {
     }
 
     public URI uploadProfilePicture(MultipartFile file) {
-        return s3Service.uploadFile(file);
+        UserAuthDetails authenticatedUser = UserService.getAuthenticatedUser();
+        if (authenticatedUser == null) {
+            throw new AuthorizationException("Acesso negado");
+        }
+        Customer customer = getCustomerByEmail(authenticatedUser.getUsername());
+        URI pfpURI = s3Service.uploadFile(file);
+        customer.setPfpURL(pfpURI.toString());
+        customerRepository.save(customer);
+        return pfpURI;
     }
 }

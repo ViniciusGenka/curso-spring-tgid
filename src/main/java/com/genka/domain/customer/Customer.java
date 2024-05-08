@@ -21,6 +21,7 @@ public class Customer implements Serializable {
     @Column(unique = true)
     private String email;
     private String name;
+    private String pfpURL;
     private String identification;
     private Integer type;
     @JsonIgnore
@@ -31,7 +32,7 @@ public class Customer implements Serializable {
     @ElementCollection
     @CollectionTable(name = "PHONES")
     private Set<String> phones = new HashSet<>();
-    @ElementCollection(fetch=FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "ROLES")
     private Set<Integer> roles = new HashSet<>();
 
@@ -75,6 +76,14 @@ public class Customer implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPfpURL() {
+        return pfpURL;
+    }
+
+    public void setPfpURL(String pfpURL) {
+        this.pfpURL = pfpURL;
     }
 
     public String getName() {
