@@ -12,17 +12,21 @@ import com.genka.security.UserAuthDetails;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
 import java.util.Optional;
 
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
     private final BCryptPasswordEncoder bcrypt;
+    private final S3Service s3Service;
 
-    public CustomerService(CustomerRepository customerRepository, BCryptPasswordEncoder bcrypt) {
+    public CustomerService(CustomerRepository customerRepository, BCryptPasswordEncoder bcrypt, S3Service s3Service) {
         this.customerRepository = customerRepository;
         this.bcrypt = bcrypt;
+        this.s3Service = s3Service;
     }
 
     public Optional<Customer> findCustomerById(Integer id) {
@@ -74,5 +78,9 @@ public class CustomerService {
                 bcrypt.encode(customerNewDTO.getPassword()),
                 customerNewDTO.getPhones()
         );
+    }
+
+    public URI uploadProfilePicture(MultipartFile file) {
+        return s3Service.uploadFile(file);
     }
 }
