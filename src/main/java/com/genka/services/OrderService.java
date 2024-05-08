@@ -11,6 +11,9 @@ import com.genka.dtos.OrderItemNewDTO;
 import com.genka.dtos.OrderNewDTO;
 import com.genka.repositories.OrderRepository;
 import com.genka.resources.exceptions.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -44,6 +47,12 @@ public class OrderService {
         return orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order with id " + orderId + " not found"));
     }
 
+    public Page<Order> search(Integer customerId, Integer page, Integer size, String orderBy, String direction) {
+        Customer customer = customerService.getCustomerById(customerId);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(direction), orderBy);
+        return orderRepository.findByCustomer(customer, pageRequest);
+    }
+
     public Order saveOrder(Order order) {
         Order savedOrder = orderRepository.save(order);
         emailService.sendOrderConfirmationHtmlEmail(order);
@@ -64,7 +73,7 @@ public class OrderService {
                     product.getPrice()
             );
         }).collect(Collectors.toSet());
-        if(orderNewDTO.getPayment() instanceof BankSlipPayment) {
+        if (orderNewDTO.getPayment() instanceof BankSlipPayment) {
             paymentService.setBankSlipPaymentExpirationDate((BankSlipPayment) orderNewDTO.getPayment(), new Date());
         }
         orderNewDTO.getPayment().setStatus(PaymentStatus.PENDENTE);

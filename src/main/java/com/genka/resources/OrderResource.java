@@ -24,6 +24,7 @@ public class OrderResource {
         return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 
+
     @PostMapping()
     public ResponseEntity<Order> addOrder(@Valid @RequestBody OrderNewDTO orderNewDTO) {
         Order savedOrder = orderService.saveOrder(orderService.mapFromDTO(orderNewDTO));
