@@ -1,5 +1,6 @@
 package com.genka.services;
 
+import com.genka.domain.customer.Customer;
 import com.genka.domain.order.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +14,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
 
-public abstract class AbstractEmailService implements EmailService{
+public abstract class AbstractEmailService implements EmailService {
     @Value("${default.sender}")
     private String sender;
     @Autowired
@@ -62,5 +63,21 @@ public abstract class AbstractEmailService implements EmailService{
         } catch (MessagingException ex) {
             sendOrderConfirmationEmail(order);
         }
+    }
+
+    @Override
+    public void sendNewPasswordEmail(Customer customer, String newPass) {
+        SimpleMailMessage sm = prepareNewPasswordEmail(customer, newPass);
+        sendEmail(sm);
+    }
+
+    protected SimpleMailMessage prepareNewPasswordEmail(Customer customer, String newPass) {
+        SimpleMailMessage sm = new SimpleMailMessage();
+        sm.setTo(customer.getEmail());
+        sm.setFrom(sender);
+        sm.setSubject("Solicitação de nova senha");
+        sm.setSentDate(new Date(System.currentTimeMillis()));
+        sm.setText("Nova senha: " + newPass);
+        return sm;
     }
 }
