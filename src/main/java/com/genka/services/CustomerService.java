@@ -49,6 +49,10 @@ public class CustomerService {
     }
 
     public Customer getCustomerByEmail(String email) {
+        UserAuthDetails authenticatedUser = UserService.getAuthenticatedUser();
+        if (authenticatedUser == null || !authenticatedUser.hasRole(UserRole.ADMIN) && !email.equals(authenticatedUser.getUsername())) {
+            throw new AuthorizationException("Acesso negado");
+        }
         return customerRepository.findCustomerByEmail(email).orElseThrow(() -> new EntityNotFoundException("Customer with email " + email + " not found"));
     }
 

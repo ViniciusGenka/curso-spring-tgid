@@ -33,6 +33,12 @@ public class CustomerResource {
         return ResponseEntity.status(HttpStatus.OK).body(customer);
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Customer> getCustomerByEmail(@PathVariable String email) {
+        Customer customer = customerService.getCustomerByEmail(email);
+        return ResponseEntity.status(HttpStatus.OK).body(customer);
+    }
+
     @GetMapping("/{id}/orders")
     public ResponseEntity<Page<Order>> getOrdersByCustomerId(
             @PathVariable Integer id,
